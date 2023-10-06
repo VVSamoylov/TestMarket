@@ -58,8 +58,8 @@ SET default_table_access_method = heap;
 
 CREATE TABLE pubic."Clothes" (
     id bigint NOT NULL,
-    color bigint,
-    typewear bigint,
+    color character(10),
+    typewear character(50),
     name text,
     "shelfId" bigint
 );
@@ -72,8 +72,7 @@ ALTER TABLE pubic."Clothes" OWNER TO postgres;
 --
 
 CREATE TABLE pubic."Color" (
-    color integer,
-    id bigint NOT NULL
+    "colorName" character(10) NOT NULL
 );
 
 
@@ -104,16 +103,15 @@ CREATE TABLE pubic."Shelf" (
 ALTER TABLE pubic."Shelf" OWNER TO postgres;
 
 --
--- Name: Typewear; Type: TABLE; Schema: pubic; Owner: postgres
+-- Name: TypeWear; Type: TABLE; Schema: pubic; Owner: postgres
 --
 
-CREATE TABLE pubic."Typewear" (
-    id bigint NOT NULL,
-    "nameWear" text
+CREATE TABLE pubic."TypeWear" (
+    "typeName" character(50) NOT NULL
 );
 
 
-ALTER TABLE pubic."Typewear" OWNER TO postgres;
+ALTER TABLE pubic."TypeWear" OWNER TO postgres;
 
 --
 -- Data for Name: Clothes; Type: TABLE DATA; Schema: pubic; Owner: postgres
@@ -127,7 +125,7 @@ COPY pubic."Clothes" (id, color, typewear, name, "shelfId") FROM stdin;
 -- Data for Name: Color; Type: TABLE DATA; Schema: pubic; Owner: postgres
 --
 
-COPY pubic."Color" (color, id) FROM stdin;
+COPY pubic."Color" ("colorName") FROM stdin;
 \.
 
 
@@ -148,10 +146,10 @@ COPY pubic."Shelf" (id, "MarketId") FROM stdin;
 
 
 --
--- Data for Name: Typewear; Type: TABLE DATA; Schema: pubic; Owner: postgres
+-- Data for Name: TypeWear; Type: TABLE DATA; Schema: pubic; Owner: postgres
 --
 
-COPY pubic."Typewear" (id, "nameWear") FROM stdin;
+COPY pubic."TypeWear" ("typeName") FROM stdin;
 \.
 
 
@@ -168,7 +166,7 @@ ALTER TABLE ONLY pubic."Clothes"
 --
 
 ALTER TABLE ONLY pubic."Color"
-    ADD CONSTRAINT color_pk PRIMARY KEY (id);
+    ADD CONSTRAINT color_pk PRIMARY KEY ("colorName");
 
 
 --
@@ -188,11 +186,11 @@ ALTER TABLE ONLY pubic."Market"
 
 
 --
--- Name: Typewear typewear_pk; Type: CONSTRAINT; Schema: pubic; Owner: postgres
+-- Name: TypeWear typewear_pk; Type: CONSTRAINT; Schema: pubic; Owner: postgres
 --
 
-ALTER TABLE ONLY pubic."Typewear"
-    ADD CONSTRAINT typewear_pk PRIMARY KEY (id);
+ALTER TABLE ONLY pubic."TypeWear"
+    ADD CONSTRAINT typewear_pk PRIMARY KEY ("typeName");
 
 
 --
@@ -204,11 +202,11 @@ ALTER TABLE ONLY pubic."Shelf"
 
 
 --
--- Name: Clothes color___fk; Type: FK CONSTRAINT; Schema: pubic; Owner: postgres
+-- Name: Clothes color__fk; Type: FK CONSTRAINT; Schema: pubic; Owner: postgres
 --
 
 ALTER TABLE ONLY pubic."Clothes"
-    ADD CONSTRAINT color___fk FOREIGN KEY (id) REFERENCES pubic."Color"(id);
+    ADD CONSTRAINT color__fk FOREIGN KEY (color) REFERENCES pubic."Color"("colorName");
 
 
 --
@@ -220,11 +218,11 @@ ALTER TABLE ONLY pubic."Clothes"
 
 
 --
--- Name: Clothes typewear___fk; Type: FK CONSTRAINT; Schema: pubic; Owner: postgres
+-- Name: Clothes typeWear_fk; Type: FK CONSTRAINT; Schema: pubic; Owner: postgres
 --
 
 ALTER TABLE ONLY pubic."Clothes"
-    ADD CONSTRAINT typewear___fk FOREIGN KEY (id) REFERENCES pubic."Typewear"(id);
+    ADD CONSTRAINT "typeWear_fk" FOREIGN KEY (typewear) REFERENCES pubic."TypeWear"("typeName");
 
 
 --
